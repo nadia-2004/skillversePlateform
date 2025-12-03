@@ -47,7 +47,8 @@ jobs:
       # 4a) Sur branches feature/* : tests unitaires
       - name: Run Unit Tests (feature/*)
         if: startsWith(github.ref, 'refs/heads/feature/')
-        run: ./mvnw -B -ntp test -Dtest=*Test
+        run: ./mvnw -B -ntp test
+
 
       # 4b) Sur develop/main/PR : suite complète
       - name: Run Full Test Suite (develop/main/PR)
