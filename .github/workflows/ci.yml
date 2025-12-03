@@ -57,24 +57,35 @@ jobs:
           github.ref == 'refs/heads/develop' ||
           github.ref == 'refs/heads/main'
         run: ./mvnw -B -ntp verify
+       # 5) Scan SonarCloud (qualité) uniquement sur PR / develop / main
+      - name: SonarCloud Scan
+        if: |
+          github.event_name == 'pull_request' ||
+          github.ref == 'refs/heads/develop' ||
+          github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # fourni par GitHub
+          SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}    # à créer dans Settings > Secrets > Actions
+        run: |
+          ./mvnw -B -ntp org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=nadia-2004 \
+            -Dsonar.projectKey=nadia-2004_notification-service
 
-      # 5) Upload des rapports (chemins repo-relatifs)
+      # 6) Upload des rapports (utile pour debug CI)
       - name: Upload Surefire Reports (Unit Tests)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: surefire-reports
           path: backend/notification-service/target/surefire-reports/*
+          if-no-files-found: ignore
 
       - name: Upload Failsafe Reports (Integration Tests)
         if: always()
         uses: actions/upload-artifact@v4
-        continue-on-error: true
         with:
           name: failsafe-reports
           path: backend/notification-service/target/failsafe-reports/*
-
-
-
-
-
+          if-no-files-found: ignore
+      
