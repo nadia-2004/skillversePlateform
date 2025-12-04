@@ -57,24 +57,19 @@ jobs:
           github.ref == 'refs/heads/develop' ||
           github.ref == 'refs/heads/main'
         run: ./mvnw -B -ntp verify
-
-      # 5) Upload des rapports (chemins repo-relatifs)
-      - name: Upload Surefire Reports (Unit Tests)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: surefire-reports
-          path: backend/notification-service/target/surefire-reports/*
-
-      - name: Upload Failsafe Reports (Integration Tests)
-        if: always()
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: failsafe-reports
-          path: backend/notification-service/target/failsafe-reports/*
-
-
-
-
+       # 5) Scan SonarCloud (qualité) sur feature / develop / main / PR
+      - name: SonarCloud Scan
+        if: |
+         startsWith(github.ref, 'refs/heads/feature/') ||
+         github.ref == 'refs/heads/develop' ||
+         github.ref == 'refs/heads/main' ||
+         github.event_name == 'pull_request'
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # auto de GitHub
+         SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}    # toi tu l'ajoutes dans GitHub secrets
+        run: |
+          ./mvnw -B -ntp org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=nadia-2004 \
+            -Dsonar.projectKey=nadia-2004_Plateforme-Skillverse
 
