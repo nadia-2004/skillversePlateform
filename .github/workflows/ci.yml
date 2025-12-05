@@ -41,6 +41,22 @@ jobs:
           cache: maven
 
       # 3) Rendre mvnw exécutable (Linux)
+      - name: Configure Maven Central mirror
+        run: |
+          mkdir -p ~/.m2
+          cat <<EOF > ~/.m2/settings.xml
+          <settings>
+            <mirrors>
+              <mirror>
+                <id>central-fast</id>
+                <name>Central Fast Mirror</name>
+                <url>https://repo1.maven.org/maven2/</url>
+                <mirrorOf>central</mirrorOf>
+              </mirror>
+            </mirrors>
+          </settings>
+          EOF
+
       - name: Make Maven Wrapper executable
         run: chmod +x mvnw
 
