@@ -89,6 +89,7 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.organization=nadia-2004 \
             -Dsonar.projectKey=nadia-2004_skillversePlateform
+            -Dsonar.coverage.jacoco.xmlReportPaths=backend/notification-service/target/site/jacoco/jacoco.xml,backend/notification-service/target/site/jacoco-it/jacoco.xml
         # 6) Trivy — Scan FS (code + dépendances + Dockerfile + secrets)
       - name: Trivy FS Scan (code & deps)
         if: 
