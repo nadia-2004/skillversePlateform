@@ -27,7 +27,7 @@ jobs:
       run:
         working-directory: backend/notification-service
 
-   steps:
+    steps:
       # 1) Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -58,7 +58,6 @@ jobs:
             </mirrors>
           </settings>
           EOF
-
       - name: Make Maven Wrapper executable
         run: chmod +x mvnw
 
@@ -107,7 +106,6 @@ jobs:
          exit-code: '1'
          severity: 'MEDIUM,HIGH,CRITICAL'
          ignore-unfixed: true
-
        # 7) Build JAR
       - name: Build JAR
         run: ./mvnw -B -ntp clean package
@@ -119,7 +117,7 @@ jobs:
       # 9) Trivy Docker Image Scan
       - name: Trivy docker Image  Scan
         uses: aquasecurity/trivy-action@0.24.0
-       with:
+        with:
           image-ref: notification-service:0.0.1
           scan-type: image
           scanners: vuln,secret,misconfig
