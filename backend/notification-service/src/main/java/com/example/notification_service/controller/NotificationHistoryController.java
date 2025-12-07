@@ -21,11 +21,6 @@ public class NotificationHistoryController {
         return service.findAll();
     }
 
-    @GetMapping("/{id}")
-    public NotificationHistory getById(@PathVariable Long id) {
-        return service.findById(id);
-    }
-
     @PostMapping
     public NotificationHistory create(@RequestBody NotificationHistory history) {
         return service.save(history);
