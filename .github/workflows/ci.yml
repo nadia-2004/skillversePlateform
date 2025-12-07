@@ -108,6 +108,12 @@ jobs:
          severity: 'MEDIUM,HIGH,CRITICAL'
          ignore-unfixed: true
  
+    # 8) Build JAR 
+      - name: Build JAR
+    run: ./mvnw -B -ntp clean package
 
+  # 9) Build Docker Image
+- name: Build Docker Image
+    run: docker build -t notification-service:0.0.1 .
 
 
