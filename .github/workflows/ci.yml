@@ -107,12 +107,25 @@ jobs:
          exit-code: '1'
          severity: 'MEDIUM,HIGH,CRITICAL'
          ignore-unfixed: true
+
        # 7) Build JAR
       - name: Build JAR
         run: ./mvnw -B -ntp clean package
 
       # 8) Build Docker Image
       - name: Build Docker Image
-        run: docker build -t notification-service:0.0.1 . 
+        run: docker build -t notification-service:0.0.1 .
+
+      # 9) Trivy Docker Image Scan
+      - name: Trivy docker Image  Scan
+        uses: aquasecurity/trivy-action@0.24.0
+       with:
+          image-ref: notification-service:0.0.1
+          scan-type: image
+          scanners: vuln,secret,misconfig
+          format: table
+          exit-code: '1'
+          severity: 'MEDIUM,HIGH,CRITICAL'
+          ignore-unfixed: true
 
 
