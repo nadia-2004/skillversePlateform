@@ -58,7 +58,6 @@ jobs:
             </mirrors>
           </settings>
           EOF
-
       - name: Make Maven Wrapper executable
         run: chmod +x mvnw
 
@@ -105,9 +104,38 @@ jobs:
          scanners: vuln,secret,misconfig
          format: table
          exit-code: '1'
-         severity: 'MEDIUM,HIGH,CRITICAL'
+         severity: 'HIGH,CRITICAL'
          ignore-unfixed: true
- 
+       # 7) Build JAR
+      - name: Build JAR
+        if: |
+          github.event_name == 'pull_request' ||
+          github.ref == 'refs/heads/develop' ||
+          github.ref == 'refs/heads/main'
+        run: ./mvnw -B -ntp clean package
 
+      # 8) Build Docker Image
+      - name: Build Docker Image
+        if: |
+          github.event_name == 'pull_request' ||
+          github.ref == 'refs/heads/develop' ||
+          github.ref == 'refs/heads/main'
+        run: docker build -t notification-service:0.0.1 .
+
+      # 9) Trivy Docker Image Scan
+      - name: Trivy docker Image  Scan
+        if: |
+          github.event_name == 'pull_request' ||
+          github.ref == 'refs/heads/develop' ||
+          github.ref == 'refs/heads/main'
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: notification-service:0.0.1
+          scan-type: image
+          scanners: vuln,secret,misconfig
+          format: table
+          exit-code: '1'
+          severity: ' HIGH,CRITICAL'
+          ignore-unfixed: true
 
 

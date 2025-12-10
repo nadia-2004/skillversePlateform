@@ -138,6 +138,10 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+    <!-- Empêche la génération du JAR automatiquement lors du cycle verify/package -->
+            <skip>true</skip>
+         </configuration>
       </plugin>
 
       <!-- 1) Tests unitaires -->
