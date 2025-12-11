@@ -7,6 +7,15 @@ WORKDIR /app
 # Copier le JAR construit
 COPY target/profilservice-0.0.1-SNAPSHOT.jar app.jar
 
+# Créer un utilisateur non-root pour exécuter l'application
+RUN groupadd -r spring && useradd -r -g spring spring
+
+# Changer la propriété des fichiers vers l'utilisateur spring
+RUN chown -R spring:spring /app
+
+# Basculer vers l'utilisateur non-root
+USER spring
+
 # Exposer le port du service
 EXPOSE 8081
 
