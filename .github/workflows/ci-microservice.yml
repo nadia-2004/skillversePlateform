@@ -62,6 +62,13 @@ jobs:
       # 4) Tests (toutes branches/PR)
       - name: Run Full Test Suite
         run: ./mvnw -B -ntp verify
+      - name: Debug Sonar access
+        run: |
+          echo "Validate token:" 
+          curl -s -u ${SONAR_TOKEN}: https://sonarcloud.io/api/authentication/validate
+          echo
+          echo "Find project:"
+          curl -s -u ${SONAR_TOKEN}: "https://sonarcloud.io/api/projects/search?projects=skillverseplateform-profilservice"
 
       # 5) SonarCloud
       - name: SonarCloud Scan
