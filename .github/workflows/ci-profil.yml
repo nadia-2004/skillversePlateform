@@ -20,5 +20,5 @@ jobs:
     uses: ./.github/workflows/ci-microservice.yml
     with:
       service_dir: backend/profilservice
-      sonar_project_key: nadia-2004_skillversePlateform_profilservice
+      sonar_project_key: nadia-2004_skillversePlateform
       image_name: profil-service
