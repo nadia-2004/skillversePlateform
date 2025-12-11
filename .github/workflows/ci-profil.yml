@@ -1,0 +1,24 @@
+name: CI - Profil Service
+
+on:
+  push:
+    branches: [ main, develop, feature/*, chore/* ]
+    paths:
+      - 'backend/profilservice/**'
+      - '.github/workflows/ci-profil.yml'
+      - '.github/workflows/ci-microservice.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'backend/profilservice/**'
+      - '.github/workflows/ci-profil.yml'
+      - '.github/workflows/ci-microservice.yml'
+  workflow_dispatch:
+
+jobs:
+  call:
+    uses: ./.github/workflows/ci-microservice.yml
+    with:
+      service_dir: backend/profilservice
+      sonar_project_key: nadia-2004_skillversePlateform_profilservice
+      image_name: profil-service
