@@ -21,3 +21,4 @@ jobs:
     with:
       service_dir: backend/profilservice
       sonar_project_key: skillverseplateform-profilservice
+      image_name: profil-service
