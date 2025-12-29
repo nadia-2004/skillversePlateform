@@ -1,0 +1,5 @@
+com\exchange\ExchangeServiceApplication.class
+com\exchange\config\SecurityConfig.class
+com\exchange\config\WebSocketConfig.class
+com\exchange\config\RedisConfig.class
+com\exchange\config\S3Config.class
