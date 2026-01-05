@@ -6,44 +6,48 @@ global:
 namespace: prod
 
 services:
-  - name: profilservice
-    image: profilservice:v2
+  - name: frontend
+    image: skillverse-frontend:latest
+    port: 80
+    replicaCount: 2
+  - name: gateway-service
+    image: gateway-service:latest
     port: 8080
     replicaCount: 2
-  - name: noutificationservices
-    image: noutificationservices:v2
+  - name: auth-service
+    image: auth-service:latest
     port: 8080
     replicaCount: 2
-  - name: authentification
-    image: authentification:v2
+  - name: profil-service
+    image: profil-service:latest
     port: 8080
     replicaCount: 2
-  - name: chat-app
-    image: chat-app:v2
+  - name: chat-service
+    image: chat-service:latest
     port: 8080
     replicaCount: 2
-  - name: matchingservices
-    image: matchingservices:v2
+  - name: matching-service
+    image: matching-service:latest
     port: 8080
     replicaCount: 2
-  - name: exchangeservice
-    image: exchangeservice:v2
+  - name: booking-service
+    image: booking-service:latest
     port: 8080
     replicaCount: 2
-
-apiGateway:
-  enabled: true
-  name: api-gateway
-  image: api-gateway:v2
-  port: 8080
-  replicaCount: 2
-  serviceType: LoadBalancer
+  - name: reputation-service
+    image: reputation-service:latest
+    port: 8080
+    replicaCount: 2
+  - name: discovery-service
+    image: discovery-service:latest
+    port: 8761
+    replicaCount: 1
 
 ingress:
   enabled: true
   className: nginx
-  hostname: api.example.com
+  hostname: skillverse.example.com
   tls:
     enabled: true
-    secretName: api-tls
+    secretName: skillverse-tls
 
